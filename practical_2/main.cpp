@@ -1,17 +1,20 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include "ship.h"
-//add an instance of a ship
-std::vector<Ship *> ships;
+#include "game.h"
+#include "bullet.h"
+
 
 using namespace sf;
 using namespace std;
 
-const int gameWidth = 800;
-const int gameHeight = 600;
-
 sf::Texture spritesheet;
 sf::Sprite invader;
+
+//add an instance of a ship
+vector<Ship *> ships;
+Player *player;
+
 
 void Load()
 {
@@ -19,11 +22,28 @@ void Load()
 	{
 		cerr << "Failed to load spritesheet!" << std::endl;
 	}
-	invader.setTexture(spritesheet);
-	invader.setTextureRect(sf::IntRect(0, 0, 32, 32));
+
+	float x = 17;
+	float y = 17;
+
+	player = new Player();
+	ships.push_back(player);
+
+	for (int r = 0; r < invaders_rows; ++r)
+	{
+		auto rect = IntRect(0, 0, 32, 32);
+		for (int c = 0; c < invaders_columns; ++c)
+		{
+			Vector2f position = {x, y};
+			auto *inv = new Invader(rect, position);
+			ships.push_back(inv);
+			x += 32.0f;
+		}
+		x = 17;
+		y += 32.0f;
+	}
+
 	
-	Invader* inv = new Invader(sf::IntRect(0, 0, 32, 32), {100, 100});
-	ships.push_back(inv);
 }
 
 void Update(RenderWindow &window)
@@ -51,17 +71,17 @@ void Update(RenderWindow &window)
 	{
 		s->Update(dt);
 	};
+	Bullet::Update(dt);
 }
 
 void Render(RenderWindow &window)
 {
-	window.draw(invader);
 	
 	for(const auto s : ships)
 	{
 		window.draw(*s);
 	}
-	
+	Bullet::Render(window);
 }
 
 int main()
