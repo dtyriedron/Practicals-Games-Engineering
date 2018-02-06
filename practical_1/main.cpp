@@ -111,7 +111,7 @@ void Update(RenderWindow &window)
 	paddles[1].move(0, direction2*paddleSpeed*dt);
 	ball.move(ballVelocity*dt);
 
-	if (by > gameHeight)
+	if (by>gameHeight)
 	{
 		//bottom wall
 		ballVelocity.x *= 1.1f;
@@ -165,6 +165,7 @@ void Update(RenderWindow &window)
 		ballVelocity.y *= 1.1f;
 		ball.move(-10, 0);
 	}
+	//dont let the paddles go higher than the gamewindow/ off screen
 	if (paddles[0].getPosition().y - paddleSize.y / 2<0)
 	{
 		paddles[0].move(0, -direction*paddleSpeed*dt);
@@ -172,6 +173,14 @@ void Update(RenderWindow &window)
 	if (paddles[1].getPosition().y - paddleSize.y / 2<0)
 	{
 		paddles[1].move(0, -direction*paddleSpeed*dt);
+	}
+	if (paddles[0].getPosition().y + paddleSize.y / 2 > gameHeight)
+	{
+		paddles[0].move(0, -direction * paddleSpeed*dt);
+	}
+	if (paddles[1].getPosition().y + paddleSize.y / 2 > gameHeight)
+	{
+		paddles[1].move(0, -direction * paddleSpeed*dt);
 	}
 }
 
