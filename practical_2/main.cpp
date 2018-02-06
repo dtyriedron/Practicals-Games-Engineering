@@ -14,7 +14,7 @@ sf::Sprite invader;
 //add an instance of a ship
 vector<Ship *> ships;
 
-//reference player(byRef)
+//reference player (byRef)
 Player *player;
 
 //things loaded at the start of the game
