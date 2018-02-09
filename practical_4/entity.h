@@ -14,11 +14,18 @@ class Entity
 		//sf::Color _colour;
 		//construct for entity class
 		Entity(std::unique_ptr<sf::Shape> shp);
-	
+		//entity manager to place all the entities into one place	
 	public:
 		//deconstructer for entity class
 		Entity() = delete;
 		virtual ~Entity() = default;
+
+		struct EntityManager
+		{
+			std::vector<std::shared_ptr<Entity>> list;
+			void update(double dt);
+			void render(sf::RenderWindow &window);
+		};
 		
 		//allowing the update and render parent classes to be overridden
 		virtual void update(const double dt);

@@ -60,7 +60,7 @@ Ghost::Ghost() : _speed(200.0f), Entity(make_unique<CircleShape>(25.f))
 	{
 		_shape->setOrigin(Vector2f(rand() % 600, rand() % 800));
 	}*/
-	_shape->setFillColor(Color(Color::Blue)); //set this to a random colour rand() % 255, rand() % 255, rand() % 255
+	_shape->setFillColor(Color(Color::Red)); //set this to a random colour rand() % 255, rand() % 255, rand() % 255
 	/*while(_shape->getFillColor() == player->getColor())
 	{
 		//set the shape settings

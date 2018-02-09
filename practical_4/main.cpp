@@ -10,8 +10,9 @@ const int gameWidth = 800;
 const int gameHeight = 600;
 
 //create instances of ghost and the player classes
-//Player *player;
-vector<shared_ptr<Entity>> ghosts;
+Player *player;
+//vector<shared_ptr<Entity>> ghosts;
+Entity::EntityManager em;
 //vector<Entity*> playerPos;
 void Reset() {}
 
@@ -19,6 +20,8 @@ void Load() {
 	//create an instance of player and four instances of ghosts
 	//player = new Player();
 	//playerPos.push_back(player);
+	auto player = make_shared<Player>();
+	em.list.push_back(player);
 	
 	//setting random pos for each the ghosts...
 	srand(static_cast <unsigned> (time(0)));
@@ -26,10 +29,10 @@ void Load() {
 	Vector2f rv = Vector2f(r, r);
 	for (int i=0; i<4;++i)
 	{
-		r+=1.0f;
 		auto ghost = make_shared<Ghost>();
+		em.list.push_back(ghost);
 		ghost->setPosition(rv);
-		ghosts.push_back(ghost);
+		r += 50.0f;
 	}
 	
 }
@@ -50,21 +53,16 @@ void Update(RenderWindow &window) {
 	if (Keyboard::isKeyPressed(Keyboard::Escape)) {
 		window.close();
 	}
-	//player->update(dt);
-	for(auto &_e : ghosts) //ghosts.capacity()
+	for(auto &_e : em.list) 
 	{
 		_e->update(dt);
 	}
 }
 
 void Render(RenderWindow &window) {
-	//player->render(window);
-	for (int i = 0; i<ghosts.capacity(); ++i)
-	{
-		for (auto &_e : ghosts) //ghosts.capacity()
-		{
-			_e->render(window);
-		}
+	for (auto &_e : em.list)
+	{	
+		_e->render(window);
 	}
 }
 
