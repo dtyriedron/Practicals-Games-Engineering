@@ -20,12 +20,6 @@ class Entity
 		Entity() = delete;
 		virtual ~Entity() = default;
 
-		struct EntityManager
-		{
-			std::vector<std::shared_ptr<Entity>> list;
-			void update(double dt);
-			void render(sf::RenderWindow &window);
-		};
 		
 		//allowing the update and render parent classes to be overridden
 		virtual void update(const double dt);
@@ -38,4 +32,11 @@ class Entity
 		void setPosition(const sf::Vector2f &pos);
 		void move(const sf::Vector2f &pos);
 
+};
+
+struct EntityManager
+{
+	std::vector<std::shared_ptr<Entity>> list;
+	void update(double dt);
+	void render(sf::RenderWindow &window);
 };

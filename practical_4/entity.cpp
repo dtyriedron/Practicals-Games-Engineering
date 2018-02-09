@@ -23,12 +23,19 @@ void Entity::update(const double dt){ _shape->setPosition(_position);}
 //creates a shape s and allows it to move
 Entity::Entity(unique_ptr<Shape> s) : _shape(std::move(s)) {}
 
-void Entity::EntityManager::update(double dt)
+void EntityManager::update(double dt)
 {
-	
+	//put something in here
+	for (auto &_e : list)
+	{
+		_e->update(dt);
+	}
 }
 
-void Entity::EntityManager::render(sf::RenderWindow & window)
+void EntityManager::render(sf::RenderWindow & window)
 {
-	render(window);
+	for (auto &_e : list)
+	{
+		_e->render(window);
+	}
 }

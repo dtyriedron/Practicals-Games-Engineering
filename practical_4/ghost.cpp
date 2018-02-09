@@ -55,7 +55,7 @@ void Ghost::update(double dt)
 Ghost::Ghost() : _speed(200.0f), Entity(make_unique<CircleShape>(25.f))
 {
 	srand(time(NULL));
-	_shape->setOrigin(Vector2f(rand() % 80, rand() % 80)); //rand() % 600, rand() % 800 50.f,50.f
+	_shape->setOrigin(Vector2f(25.0f, 25.0f)); //rand() % 600, rand() % 800 50.f,50.f
 	/*while (_shape->getOrigin() == player->getPosition())
 	{
 		_shape->setOrigin(Vector2f(rand() % 600, rand() % 800));
