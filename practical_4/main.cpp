@@ -1,7 +1,5 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
-#include "player.h"
-#include "ghost.h"
 #include "pacman.h"
 #include "system_renderer.h"
 
@@ -38,8 +36,8 @@ void Load() {
 	//   <- this is where main.Load() should end->
 
 
-	auto player = make_shared<Player>();
-	em.list.push_back(player);
+	//auto player = make_shared<Player>();
+	//em.list.push_back(player);
 	
 	//setting random pos for each the ghosts...
 	//srand(static_cast <unsigned> (time(0)));
@@ -47,9 +45,9 @@ void Load() {
 	Vector2f rv = Vector2f(300.0f, 500.0f);
 	for (int i=0; i<4;++i)
 	{
-		auto ghost = make_shared<Ghost>();
-		ghost->setPosition(rv);
-		em.list.push_back(ghost);
+		//auto ghost = make_shared<Ghost>();
+		//ghost->setPosition(rv);
+		//em.list.push_back(ghost);
 		rv.x += 60.0f;
 	}
 	
