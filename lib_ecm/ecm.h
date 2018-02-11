@@ -25,7 +25,7 @@ public:
 	virtual void render();
 
 	const sf::Vector2f &getPosition() const;
-	void setPostion(const sf::Vector2f &pos);
+	void setPosition(const sf::Vector2f &pos);
 	bool is_fordeletion() const;
 	float getRotation() const;
 	void setRotation(float &rot);

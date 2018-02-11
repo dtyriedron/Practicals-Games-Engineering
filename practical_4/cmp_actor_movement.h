@@ -12,10 +12,10 @@ public:
 	ActorMovementComponent() = delete;
 
 	float getSpeed() const;
-	void setSpeed(float speed);
+	void setSpeed(float &speed);
 
 	void move(const sf::Vector2f&);
-	void move(float x, float y);
+	void move(float &x, float &y);
 
 	void render() override {}
 	void update(double dt) override;

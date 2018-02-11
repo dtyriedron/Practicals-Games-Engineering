@@ -6,8 +6,8 @@
 using namespace sf;
 using namespace std;
 
-const int gameWidth = 800;
-const int gameHeight = 600;
+const int gameWidth = 700;
+const int gameHeight = 720;
 
 shared_ptr<Scene> gameScene;
 shared_ptr<Scene> menuScene;
@@ -84,7 +84,7 @@ void Render(RenderWindow &window) {
 }
 
   int main() {
-	RenderWindow window(VideoMode(gameWidth, gameHeight), "Coursework");
+	RenderWindow window(VideoMode(gameWidth, gameHeight), "pacman");
 	
 	Load();
 

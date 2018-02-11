@@ -5,44 +5,15 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include "cmp_sprite.h"
+#include "cmp_actor_movement.h"
+#include "cmp_player_movement.h"
+#include "cmp_ai_movement.h"
+#include "levelsystem.h"
 
 using namespace sf;
 using namespace std;
 
 Font font;
-
-void GameScene::load()
-{
-	{
-		auto pl = make_shared<Entity>();
-		
-		auto s = pl->addComponent<ShapeComponent>();
-		s->setShape<sf::CircleShape>(12.f);
-		s->getShape().setFillColor(Color::Yellow);
-		s->getShape().setOrigin(Vector2f(12.f, 12.f));
-		
-		_ents.list.push_back(pl);
-	}
-	
-	const sf::Color ghost_cols[]
-	{
-		{208, 62, 25},
-		{219, 133, 28},
-		{70, 191, 238},
-		{234, 130, 229}
-	};
-	
-	for (int i=0; i<GHOSTS_COUNT; ++i)
-	{
-		auto ghost = make_shared<Entity>();
-		auto s = ghost->addComponent<ShapeComponent>();
-		s->setShape<sf::CircleShape>(12.f);
-		s->getShape().setFillColor(ghost_cols[i % 4]);
-		s->getShape().setOrigin(Vector2f(12.f, 12.f));
-		
-		_ents.list.push_back(ghost);
-	}
-}
 
 MenuScene::MenuScene()
 {
@@ -73,8 +44,54 @@ void MenuScene::load()
 }
 
 //game scene
+void GameScene::load()
+{
+	ls::loadLevelFile("res/levels/pacman.txt", 25.0f);
+
+	auto pl = make_shared<Entity>();
+
+	auto s = pl->addComponent<ShapeComponent>();
+	s->setShape<sf::CircleShape>(12.f);
+	s->getShape().setFillColor(Color::Yellow);
+	s->getShape().setOrigin(Vector2f(12.f, 12.f));
+
+	auto plm = pl->addComponent<PlayerMovementComponent>();
+
+	_ents.list.push_back(pl);
+
+	const sf::Color ghost_cols[]
+	{
+		{ 208, 62, 25 },
+		{ 219, 133, 28 },
+		{ 70, 191, 238 },
+		{ 234, 130, 229 }
+	};
+
+	for (int i = 0; i<GHOSTS_COUNT; ++i)
+	{
+		auto ghost = make_shared<Entity>();
+
+		auto s = ghost->addComponent<ShapeComponent>();
+		s->setShape<sf::CircleShape>(12.f);
+		s->getShape().setFillColor(ghost_cols[i % 4]);
+		s->getShape().setOrigin(Vector2f(12.f, 12.f));
+
+		auto aim = ghost->addComponent<AiMovementComponent>();
+
+		_ents.list.push_back(ghost);
+	}
+	respawn();
+}
+
 void GameScene::respawn()
 {
+	_ents.list[0]->setPosition((ls::findTiles(ls::START)[0]));
+	
+	auto ghost_spawns = ls::findTiles(ls::ENEMY);
+	for (int i = 1; i < _ents.list.size(); ++i)
+	{
+		_ents.list[i]->setPosition(ghost_spawns[rand() % ghost_spawns.size()]);
+	}
 }
 
 void GameScene::update(double dt)
@@ -83,11 +100,14 @@ void GameScene::update(double dt)
 	{
 		activeScene = menuScene;
 	}
+
+	_ents.update(dt);
 	Scene::update(dt);
 }
 
 void GameScene::render(sf::RenderWindow &window)
 {
+	ls::render(Renderer::getWindow());
 	_ents.render(window);
 }
 

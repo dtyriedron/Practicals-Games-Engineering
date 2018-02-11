@@ -53,7 +53,7 @@ target_include_directories(lib_maths INTERFACE "${CMAKE_SOURCE_DIR}/lib_maths" S
 file(GLOB_RECURSE SOURCES practical_4/*.cpp practical_4/*.h)
 add_executable(PRACTICAL_4 ${SOURCES})
 target_include_directories(PRACTICAL_4 SYSTEM PRIVATE ${SFML_INCS})
-target_link_libraries(PRACTICAL_4 lib_ecm lib_maths sfml-graphics)
+target_link_libraries(PRACTICAL_4 lib_ecm lib_tile_level_loader lib_maths sfml-graphics)
 
 ## ecm ##
 file(GLOB_RECURSE SOURCE_FILES lib_ecm/*.cpp lib_ecm/*.h)

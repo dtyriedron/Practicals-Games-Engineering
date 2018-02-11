@@ -28,6 +28,8 @@ class LevelSystem
 		static sf::Vector2f getTilePosition(sf::Vector2ul);
 		//get the tile at the screenspace pos
 		static TILE getTileAt(sf::Vector2f);
+		//find the tiles that have the specified type t
+		static std::vector<sf::Vector2f> findTiles(TILE t);
 		//get the width and height
 		const static size_t getHeight();
 		const static size_t getWidth();

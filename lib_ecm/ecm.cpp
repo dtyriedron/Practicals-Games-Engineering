@@ -1,4 +1,5 @@
 #include "ecm.h"
+#include <iostream>
 using namespace std;
 using namespace sf;
 
@@ -20,7 +21,7 @@ const sf::Vector2f & Entity::getPosition() const
 }
 
 //sets the pos of the entity
-void Entity::setPostion(const sf::Vector2f & pos)
+void Entity::setPosition(const sf::Vector2f & pos)
 {
 	_position = pos;
 }

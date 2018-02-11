@@ -151,6 +151,22 @@ LevelSystem::TILE LevelSystem::getTileAt(Vector2f v)
 	return getTile(Vector2ul((v - _offset) / (_tileSize)));
 }
 
+std::vector<sf::Vector2f> LevelSystem::findTiles(TILE t)
+{
+	vector<Vector2f> foundTiles;
+	for (size_t y = 0; y < LevelSystem::getHeight(); ++y)
+	{
+		for (size_t x = 0; x < LevelSystem::getWidth(); ++x)
+		{
+			if (getTile({ x, y }) == t)
+			{
+				foundTiles.push_back((getTilePosition(Vector2ul{ x, y }) + Vector2f(_tileSize / 2.f, _tileSize / 2.f)));
+			}
+		}
+	}
+	return foundTiles;
+}
+
 const size_t LevelSystem::getHeight()
 {
 	return _height;
