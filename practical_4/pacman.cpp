@@ -7,13 +7,16 @@
 #include "cmp_sprite.h"
 #include "cmp_actor_movement.h"
 #include "cmp_player_movement.h"
-#include "cmp_ai_movement.h"
+#include "cmp_enemy_ai.h"
 #include "levelsystem.h"
 
 using namespace sf;
 using namespace std;
 
 Font font;
+
+vector<shared_ptr<Entity>> ghosts;
+shared_ptr<Entity> player;
 
 MenuScene::MenuScene()
 {
@@ -58,6 +61,7 @@ void GameScene::load()
 	auto plm = pl->addComponent<PlayerMovementComponent>();
 
 	_ents.list.push_back(pl);
+	player = pl;
 
 	const sf::Color ghost_cols[]
 	{
@@ -76,16 +80,18 @@ void GameScene::load()
 		s->getShape().setFillColor(ghost_cols[i % 4]);
 		s->getShape().setOrigin(Vector2f(12.f, 12.f));
 
-		auto aim = ghost->addComponent<AiMovementComponent>();
+		auto aim = ghost->addComponent<EnemyAIComponent>();
 
+		ghosts.push_back(ghost);
 		_ents.list.push_back(ghost);
+		
 	}
 	respawn();
 }
 
 void GameScene::respawn()
 {
-	_ents.list[0]->setPosition((ls::findTiles(ls::START)[0]));
+	player->setPosition((ls::findTiles(ls::START)[0]));
 	
 	auto ghost_spawns = ls::findTiles(ls::ENEMY);
 	for (int i = 1; i < _ents.list.size(); ++i)
@@ -99,6 +105,13 @@ void GameScene::update(double dt)
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Tab))
 	{
 		activeScene = menuScene;
+	}
+	for (auto& g : ghosts)
+	{
+		if (length(g->getPosition() - player->getPosition()) < 30.0f)
+		{
+			respawn();
+		}
 	}
 
 	_ents.update(dt);
