@@ -2,6 +2,7 @@
 #include "maths.h"
 #include "ecm.h"
 #include "levelsystem.h"
+#include <iostream>
 
 using namespace sf;
 static const Vector2i directions[] =  {{1,0}, {0,1}, {0,-1}, {-1,0} };
@@ -10,6 +11,7 @@ EnemyAIComponent::EnemyAIComponent(Entity * p) : ActorMovementComponent(p)
 {
 	_speed = 100.f;
 	_direction = Vector2f(directions[rand() % 4]);
+	_state = ROAMING;
 }
 
 void EnemyAIComponent::update(double dt)
@@ -27,8 +29,10 @@ void EnemyAIComponent::update(double dt)
 
 	switch (_state)
 	{
+		
 	case ROAMING:
-		if(LevelSystem::getTileAt(pos))
+		//std::cout << "hey";
+		if(LevelSystem::getTileAt(newpos) == LevelSystem::WALL || LevelSystem::getTileAt(pos) == LevelSystem::WAYPOINT)
 		{
 			_state = ROTATING;
 		}
@@ -38,7 +42,7 @@ void EnemyAIComponent::update(double dt)
 		}
 		break;
 	case ROTATING:
-		while (newdir == baddir && LevelSystem::getTileAt(newpos) != LevelSystem::WALL)
+		while (newdir == baddir && LevelSystem::getTileAt(newpos) == LevelSystem::WALL)
 		{
 			newdir = directions[rand() % 4];
 		}
@@ -46,7 +50,7 @@ void EnemyAIComponent::update(double dt)
 		_state = ROTATED;
 		break;
 	case ROTATED:
-		if (LevelSystem::getTileAt(pos) != LevelSystem::WAYPOINT)
+		if (LevelSystem::getTileAt(newpos) != LevelSystem::WAYPOINT)
 		{
 			_state = ROAMING;
 		}
